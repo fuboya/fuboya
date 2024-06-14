@@ -23,6 +23,7 @@ shrio (可能会加入，用于用户的权限管理)
 ### 使用的资料(补充中)
 [sringboot文档](https://spring.io/guides)(springboot指导文档)  
 [building oauthapps with git文档](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps)(github登录)
+[bootstrap文档](https://v3.bootcss.com/getting-started/)(bootstrap文档)
 
 ### 数据库设计(补充中)
 user(用户表) {   
