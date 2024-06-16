@@ -2,8 +2,7 @@ package sourcecode.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-import sourcecode.dto.GithubUser;
+import org.apache.ibatis.annotations.Select;
 import sourcecode.model.User;
 
 /*
@@ -22,5 +21,6 @@ selectList(Wrapper<T> queryWrapper)：根据条件查询多条记录。
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-
+    @Select("SELECT * FROM user WHERE token = #{token}")
+    User findByToken(String token);
 }

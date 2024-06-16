@@ -36,6 +36,17 @@ gmt_create (创建时间)
 gmt_modified (修改时间)  
 ...........   
 }  
+sql脚本：  
+create table user  
+(  
+    id           int auto_increment primary key,   
+    account_id   varchar(100) null,   
+    name         varchar(50)  null,  
+    token        char(36)     null comment '登录的token',  
+    gmt_create   bigint       null comment '创建时间',   
+    gmt_modified bigint       null  
+);
+
 
 
 question(帖子表) {   
