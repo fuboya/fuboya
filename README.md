@@ -15,16 +15,17 @@ GitHubDesktop (用于管理代码版本)
 springboot (后端框架)  
 bootstrap (前端框架)  
 mysql   
-myBatis (持久层框架)  
+myBatis-plus (持久层框架)  
 lombok (注解插件，可以减少重复代码getter和setter)  
 shrio (可能会加入，用于用户的权限管理)
 
 
 ### 使用的资料(补充中)
 [sringboot文档](https://spring.io/guides)(springboot指导文档)  
-[building oauthapps with git文档](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps)(github登录)
-[bootstrap文档](https://v3.bootcss.com/getting-started/)(bootstrap文档)
-
+[building oauthapps with git文档](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps)(github登录)  
+[bootstrap文档](https://v3.bootcss.com/getting-started/)(boot strap文档)  
+[thymeleaf引擎文档](https://fanlychie.github.io/post/thymeleaf.html)  
+[mybatis-plus文档](https://baomidou.com/introduce/)
 ### 数据库设计(补充中)
 user(用户表) {   
 id (主键，用于标注用户序号)  
