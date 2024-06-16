@@ -26,6 +26,14 @@ shrio (可能会加入，用于用户的权限管理)
 [bootstrap文档](https://v3.bootcss.com/getting-started/)(boot strap文档)  
 [thymeleaf引擎文档](https://fanlychie.github.io/post/thymeleaf.html)  
 [mybatis-plus文档](https://baomidou.com/introduce/)
+
+### 项目结构/文件夹设计（补充中）
+controller(页面控制)  
+dto(与外部网站端口进行数据交换而定义的数据结构，用于传递向外部网站的参数)  
+mapper(Dao层，用于定义与数据库交换数据的方法，也可以自定义sql)  
+model(Entity层，用于定义映射数据库中表的实体类，@Table注解用于映射表)
+provider(与外部网站进行交流的具体实现)
+
 ### 数据库设计(补充中)
 user(用户表) {   
 id (主键，用于标注用户序号)  
@@ -34,17 +42,20 @@ name (昵称)
 token (使用 github 登录 api 获取的 token，可以唯一标注用户)  
 gmt_create (创建时间)   
 gmt_modified (修改时间)  
+bio(描述)
 ...........   
 }  
 sql脚本：  
 create table user  
 (  
-    id           int auto_increment primary key,   
-    account_id   varchar(100) null,   
-    name         varchar(50)  null,  
-    token        char(36)     null comment '登录的token',  
-    gmt_create   bigint       null comment '创建时间',   
-    gmt_modified bigint       null  
+id           int auto_increment   
+primary key,   
+account_id   varchar(100) ,   
+name         varchar(50)  ,   
+token        char(36)     null comment '登录的token',   
+gmt_create   bigint       null comment '创建时间',   
+gmt_modified bigint       ,   
+bio          varchar(256)    
 );
 
 
