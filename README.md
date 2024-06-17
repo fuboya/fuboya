@@ -43,7 +43,7 @@ token (使用 github 登录 api 获取的 token，可以唯一标注用户)
 gmt_create (创建时间)   
 gmt_modified (修改时间)  
 bio(描述)
-...........   
+
 }  
 sql脚本：  
 create table user  
