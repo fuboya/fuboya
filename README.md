@@ -64,17 +64,30 @@ question(帖子表) {
 id  
 title   (标题)  
 description (描述)  
+gmt_create (创建时间)   
+gmt_modified (修改时间)
 creator (创建人)  
 comment_count (评论数)   
 view_count (查看数)  
 like_count (点赞数)  
 tag(标签)  
 gmt_create (创建时间)   
-gmt_modified (修改时间)    
-............  
-
+gmt_modified (修改时间)
 }
 
+sql脚本:
+create table question(
+id int auto_increment primary key,
+title varchar(50),
+description text,
+gmt_create bigint,
+gmt_modified bigint,
+creator int,
+comment_count int default 0,
+view_count int default 0,
+like_count int default 0,
+tag varchar(256)
+);
 
 
 comment(回复表){  
