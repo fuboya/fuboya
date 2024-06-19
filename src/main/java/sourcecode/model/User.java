@@ -20,5 +20,5 @@ public class User  {
     private Long gmt_create;
     private Long gmt_modified;
     private String bio;
-
+    private String avatarUrl;
 }
