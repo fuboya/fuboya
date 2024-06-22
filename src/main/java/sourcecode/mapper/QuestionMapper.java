@@ -1,16 +1,16 @@
 package sourcecode.mapper;
 
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import sourcecode.dto.QuestionDTO;
 import sourcecode.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface QuestionMapper {
+    @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag=#{tag} where id=#{id}")
+    void update(Question question);
+
     @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tag) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void create(Question question);
 

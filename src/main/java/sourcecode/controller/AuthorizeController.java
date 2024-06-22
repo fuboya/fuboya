@@ -15,6 +15,7 @@ import sourcecode.dto.GithubUser;
 import sourcecode.mapper.UserMapper;
 import sourcecode.model.User;
 import sourcecode.provider.GithubProvider;
+import sourcecode.service.UserService;
 
 
 import java.util.UUID;
@@ -31,9 +32,9 @@ import java.util.UUID;
 public class AuthorizeController {
     @Autowired//自动注入方法
     private GithubProvider githubProvider;
-    @Autowired
-    private UserMapper userMapper;//注入UserMapper
 
+    @Autowired
+    private UserService userService;
 
     @Value("${github.client_id}")//读取配置文件中键为github.client_id的值赋值给下面定义的变量
     private String client_id;
@@ -71,11 +72,9 @@ public class AuthorizeController {
             user.setName(githubuser.getName());
             user.setToken(token);
             user.setAccount_id(String.valueOf(githubuser.getId()));
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
             user.setAvatarUrl(githubuser.getAvatar_url());
             user.setBio(githubuser.getBio());
-            userMapper.insert(user);
+            userService.createUpdate(user);
 
 
             return "redirect:/";//重定向
@@ -85,7 +84,15 @@ public class AuthorizeController {
             return "redirect:/";
 
         }
+    }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

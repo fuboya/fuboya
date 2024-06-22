@@ -2,7 +2,9 @@ package sourcecode.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import sourcecode.model.User;
 
 /*
@@ -22,8 +24,14 @@ selectList(Wrapper<T> queryWrapper)：根据条件查询多条记录。
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT * FROM user WHERE token = #{token}")
-    User findByToken(String token);
+    User findByToken(@Param("token") String token);
 
     @Select("SELECT * FROM user WHERE id = #{id}")
-    User findById(Integer id);
+    User findById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM user WHERE account_id = #{accountId}")
+    User findByAccountId(@Param("accountId") String accountId);
+
+    @Update("update user set name = #{name}, token = #{token}, gmt_modified = #{gmt_modified}, avatar_url=#{avatarUrl} where id=#{id}")
+    void update(User user);
 }
