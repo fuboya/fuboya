@@ -1,6 +1,5 @@
 package sourcecode.controller;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sourcecode.mapper.QuestionMapper;
-import sourcecode.mapper.UserMapper;
 import sourcecode.model.Question;
 import sourcecode.model.User;
 
@@ -17,8 +15,6 @@ import sourcecode.model.User;
 public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
     @GetMapping("/publish")
     public String publish(){
         return "publish";
@@ -48,21 +44,7 @@ public class PublishController {
             return "publish";
         }
 
-        User user=null;
-        Cookie[] cookies = request.getCookies();//获取请求cookies
-        if(cookies != null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token"))//寻找键为token的cookie
-                {
-                    String token = cookie.getValue();//获取token
-                    user = userMapper.findByToken(token);//根据token查找数据库
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if(user==null){
             model.addAttribute("error","用户未登录");
             return "publish";
