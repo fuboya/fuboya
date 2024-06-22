@@ -23,4 +23,7 @@ selectList(Wrapper<T> queryWrapper)：根据条件查询多条记录。
 public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT * FROM user WHERE token = #{token}")
     User findByToken(String token);
+
+    @Select("SELECT * FROM user WHERE id = #{id}")
+    User findById(Integer id);
 }
