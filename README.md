@@ -25,7 +25,9 @@ shrio (可能会加入，用于用户的权限管理)
 [building oauthapps with git文档](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps)(github登录)  
 [bootstrap文档](https://v3.bootcss.com/getting-started/)(boot strap文档)  
 [thymeleaf引擎文档](https://fanlychie.github.io/post/thymeleaf.html)  
-[mybatis-plus文档](https://baomidou.com/introduce/)
+[mybatis-plus文档](https://baomidou.com/introduce/)  
+[Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)  
+[spring mvc](https://docs.spring.io/spring-framework/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-config-interceptors)
 
 ### 项目结构/文件夹设计（补充中）
 controller(页面控制)  
