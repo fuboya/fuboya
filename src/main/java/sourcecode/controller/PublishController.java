@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sourcecode.dto.QuestionDTO;
-import sourcecode.mapper.QuestionMapper;
 import sourcecode.model.Question;
 import sourcecode.model.User;
 import sourcecode.service.QuestionService;
