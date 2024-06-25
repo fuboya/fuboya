@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sourcecode.mapper.UserMapper;
 import sourcecode.model.User;
+import sourcecode.model.UserExample;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -11,17 +14,23 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createUpdate(User user) {
-        User dbuser = userMapper.findByAccountId(user.getAccount_id());
-        if(dbuser==null){
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(userExample);
+        if(users.size() == 0){
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         }else{
-            dbuser.setGmt_modified(System.currentTimeMillis());
-            dbuser.setAvatarUrl(user.getAvatarUrl());
-            dbuser.setName(user.getName());
-            dbuser.setToken(user.getToken());
-            userMapper.update(dbuser);
+            User dbuser = users.get(0);
+            User updateUser = new User();
+            updateUser.setGmtModified(System.currentTimeMillis());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setName(user.getName());
+            updateUser.setToken(user.getToken());
+            UserExample example = new UserExample();
+            example.createCriteria().andIdEqualTo(dbuser.getId());
+            userMapper.updateByExampleSelective(updateUser,example);
         }
     }
 }

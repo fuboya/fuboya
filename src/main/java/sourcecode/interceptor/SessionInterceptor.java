@@ -9,6 +9,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import sourcecode.mapper.UserMapper;
 import sourcecode.model.User;
+import sourcecode.model.UserExample;
+
+import java.util.List;
 
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
@@ -22,9 +25,11 @@ public class SessionInterceptor implements HandlerInterceptor {
                 if (cookie.getName().equals("token"))//寻找键为token的cookie
                 {
                     String token = cookie.getValue();//获取token
-                    User user = userMapper.findByToken(token);//根据token查找数据库
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
+                    UserExample userExample = new UserExample();
+                    userExample.createCriteria().andTokenEqualTo(token);
+                    List<User> users = userMapper.selectByExample(userExample);
+                    if (users.size()!= 0) {
+                        request.getSession().setAttribute("user", users.get(0));
                     }
                     break;
                 }

@@ -32,3 +32,6 @@ body{
     height: 1px;
     border: none;
 }
+.jumbotron{
+    margin: 50px;
+}
