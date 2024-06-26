@@ -2,6 +2,7 @@ package sourcecode.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 import sourcecode.model.Question;
 import sourcecode.model.QuestionExample;
 
@@ -10,17 +11,17 @@ public interface QuestionMapper {
 
     int deleteByExample(QuestionExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Question record);
 
     int insertSelective(Question record);
 
-    List<Question> selectByExampleWithBLOBs(QuestionExample example);
+    List<Question> selectByExampleWithBLOBs(QuestionExample example, RowBounds rowBounds);
 
     List<Question> selectByExample(QuestionExample example);
 
-    Question selectByPrimaryKey(Integer id);
+    Question selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
 
