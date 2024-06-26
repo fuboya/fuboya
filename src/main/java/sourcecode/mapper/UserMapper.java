@@ -1,12 +1,10 @@
 package sourcecode.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import sourcecode.model.User;
 import sourcecode.model.UserExample;
-@Mapper
+
 public interface UserMapper {
     long countByExample(UserExample example);
 

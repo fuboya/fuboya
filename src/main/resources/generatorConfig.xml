@@ -92,7 +92,7 @@
             type="ANNOTATEDMAPPER"，接口的实现通过注解写在接口上面
          -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="sourcecode.mapper"
-                             targetProject="src/main/java/sourcecode/mapper">
+                             targetProject="src/main/java">
             <!-- 是否让schema作为包后缀-->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>

@@ -1,14 +1,10 @@
 package sourcecode.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.RowBounds;
 import sourcecode.model.Question;
 import sourcecode.model.QuestionExample;
 
-@Mapper
 public interface QuestionMapper {
     long countByExample(QuestionExample example);
 
@@ -20,7 +16,7 @@ public interface QuestionMapper {
 
     int insertSelective(Question record);
 
-    List<Question> selectByExampleWithBLOBs(QuestionExample example, RowBounds rowBounds);
+    List<Question> selectByExampleWithBLOBs(QuestionExample example);
 
     List<Question> selectByExample(QuestionExample example);
 
