@@ -1,11 +1,13 @@
 package sourcecode.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sourcecode.dto.PaginationDTO;
 import sourcecode.dto.QuestionDTO;
+import sourcecode.dto.QuestionQueryDTO;
 import sourcecode.exception.CustomizeErrorCode;
 import sourcecode.exception.CustomizeException;
 import sourcecode.mapper.QuestionExtMapper;
@@ -16,7 +18,9 @@ import sourcecode.model.QuestionExample;
 import sourcecode.model.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -26,9 +30,20 @@ public class QuestionService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search,Integer page, Integer size) {
+
+
+        if(StringUtils.isNotBlank(search)){
+            String[] tags =  StringUtils.split(search," ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         PaginationDTO paginationDTO=new PaginationDTO();
-        Integer totalcount =(int) questionMapper.countByExample(new QuestionExample());
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+
+        Integer totalcount =questionExtMapper.countBySearch(questionQueryDTO);
         paginationDTO.setPagination(totalcount,page,size);
 
         if(page>paginationDTO.getTotalPage()){
@@ -40,7 +55,9 @@ public class QuestionService {
 
         Integer offset = size * (page-1);      //数据库中的偏移量  0 5； 5 5； 10 5；其中5为每页显示个数即size
 
-        List<Question> questions = questionMapper.selectByExampleWithBLOBs(new QuestionExample(),new RowBounds(offset,size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -127,5 +144,24 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if(StringUtils.isBlank(queryDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags =  StringUtils.split(queryDTO.getTag(),",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q->{
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }
