@@ -3,6 +3,9 @@ package sourcecode.service;
 import org.springframework.beans.BeanUtils;
 import sourcecode.dto.CommentDTO;
 import sourcecode.enums.CommentTypeEnum;
+
+import sourcecode.enums.NotificationStatusEnum;
+import sourcecode.enums.NotificationTypeEnum;
 import sourcecode.exception.CustomizeErrorCode;
 import sourcecode.exception.CustomizeException;
 import sourcecode.mapper.*;
@@ -36,8 +39,10 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment,User commentator) {
         if(comment.getParentId()==null || comment.getParentId()==0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -46,7 +51,7 @@ public class CommentService {
         }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             // 回复评论
-            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
+            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());//一级评论
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
@@ -55,12 +60,26 @@ public class CommentService {
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insert(comment);
-            // 增加评论数
+
+            commentMapper.insert(comment);//插入二级评论
+
+            // 增加评论数（一级评论）
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.incCommentCount(parentComment);
+            // 增加通知
+            Notification notification = new Notification();
+            notification.setNotifierName(commentator.getName());
+            notification.setOuterTitle(question.getTitle());
+            notification.setGmtCreate(System.currentTimeMillis());
+            notification.setType(NotificationTypeEnum.REPLY_COMMENT.getType());
+            notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+            notification.setOuterid(dbComment.getParentId());//通知帖子的编号
+            notification.setNotifier(comment.getCommentator());
+            notification.setReceiver(dbComment.getCommentator());
+            notificationMapper.insert(notification);
+
 
         } else {
             // 回复问题
@@ -72,6 +91,18 @@ public class CommentService {
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionExtMapper.incCommentCount(question);
+
+            // 增加通知
+            Notification notification = new Notification();
+            notification.setNotifierName(commentator.getName());
+            notification.setOuterTitle(question.getTitle());
+            notification.setGmtCreate(System.currentTimeMillis());
+            notification.setType(NotificationTypeEnum.REPLY_COMMENT.getType());
+            notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+            notification.setOuterid(comment.getParentId());//通知帖子的编号
+            notification.setNotifier(comment.getCommentator());
+            notification.setReceiver(question.getCreator());
+            notificationMapper.insert(notification);
         }
     }
 
