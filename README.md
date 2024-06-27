@@ -102,7 +102,21 @@ gmt_create (创建时间)
 gmt_modified (修改时间)  
 id............  
 
-}
+}  
+
+create table comment
+(  
+id            bigint auto_increment   
+primary key,   
+parent_id     bigint           not null,   
+type          int              not null,   
+commentator   bigint           not null,   
+gmt_create    bigint           not null,   
+gmt_modified  bigint           not null,
+like_count    bigint default 0 null,
+content       varchar(1024)    null,
+comment_count int    default 0 null
+);  
 
 notification(通知表){    
 id  
@@ -114,7 +128,19 @@ gmt_create (创建时间)
 status(是否已经读 0未读 1已经读)  
 ..............
 
-}
+}   
+create table notification
+(  
+id         bigint auto_increment   
+primary key,   
+notifier   bigint        not null,   
+receiver   bigint        not null,   
+outerId    bigint        not null,   
+type       int           not null,   
+gmt_create bigint        not null,   
+status     int default 0 not null
+);
+
 
 
 ###er图
