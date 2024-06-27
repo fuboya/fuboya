@@ -48,17 +48,19 @@ bio(描述)
 
 }  
 sql脚本：  
-create table user  
-(  
-id           int auto_increment   
-primary key,   
-account_id   varchar(100) ,   
-name         varchar(50)  ,   
-token        char(36)     null comment '登录的token',   
-gmt_create   bigint       null comment '创建时间',   
-gmt_modified bigint       ,   
-bio          varchar(256)    
+create table user
+(
+id           bigint auto_increment
+primary key,
+account_id   varchar(100) null,
+name         varchar(50)  null,
+token        char(36)     null comment '登录的token',
+gmt_create   bigint       null comment '创建时间',
+gmt_modified bigint       null,
+bio          varchar(100) null,
+avatar_url   varchar(100) null
 );
+
 
 
 
@@ -78,17 +80,19 @@ gmt_modified (修改时间)
 }
 
 sql脚本:
-create table question(
-id int auto_increment primary key,
-title varchar(50),
-description text,
-gmt_create bigint,
-gmt_modified bigint,
-creator int,
-comment_count int default 0,
-view_count int default 0,
-like_count int default 0,
-tag varchar(256)
+create table question
+(
+id            bigint auto_increment
+primary key,
+title         varchar(50)   null,
+description   text          null,
+gmt_create    bigint        null,
+gmt_modified  bigint        null,
+creator       bigint        null,
+comment_count int default 0 null,
+view_count    int default 0 null,
+like_count    int default 0 null,
+tag           varchar(256)  null
 );
 
 
@@ -105,18 +109,19 @@ id............
 }  
 
 create table comment
-(  
-id            bigint auto_increment   
-primary key,   
-parent_id     bigint           not null,   
-type          int              not null,   
-commentator   bigint           not null,   
-gmt_create    bigint           not null,   
+(
+id            bigint auto_increment
+primary key,
+parent_id     bigint           not null,
+type          int              not null,
+commentator   bigint           not null,
+gmt_create    bigint           not null,
 gmt_modified  bigint           not null,
 like_count    bigint default 0 null,
 content       varchar(1024)    null,
 comment_count int    default 0 null
-);  
+);
+
 
 notification(通知表){    
 id  
@@ -130,16 +135,16 @@ status(是否已经读 0未读 1已经读)
 
 }   
 create table notification
-(  
-id         bigint auto_increment   
-primary key,   
-notifier   bigint        not null,   
-receiver   bigint        not null,   
-outerId    bigint        not null,   
-type       int           not null,   
-gmt_create bigint        not null,   
-status     int default 0 not null,  
-notifier_name varchar(100)  null,  
+(
+id            bigint auto_increment
+primary key,
+notifier      bigint        not null,
+receiver      bigint        not null,
+outerId       bigint        not null,
+type          int           not null,
+gmt_create    bigint        not null,
+status        int default 0 not null,
+notifier_name varchar(100)  null,
 outer_title   varchar(256)  null
 );
 
