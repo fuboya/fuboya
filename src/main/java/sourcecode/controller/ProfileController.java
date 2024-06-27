@@ -22,7 +22,7 @@ public class ProfileController {
     public String profile(HttpServletRequest request,@PathVariable(name="action") String action,
                           Model model,
                           @RequestParam(name="page",defaultValue = "1") Integer page,
-                          @RequestParam(name="size",defaultValue = "6") Integer size){
+                          @RequestParam(name="size",defaultValue = "5") Integer size){
 
         User user = (User) request.getSession().getAttribute("user");
         if (user==null){

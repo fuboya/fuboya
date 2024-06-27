@@ -86,6 +86,10 @@ body {
     padding-top: 10px;
 }
 
+.index-sel{
+    margin-left: 20px;
+}
+
 .publish-tag-tab .label-info {
     white-space: normal;
     margin: 5px 5px;
