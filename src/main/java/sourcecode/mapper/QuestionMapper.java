@@ -16,8 +16,8 @@ public interface QuestionMapper {
     int insert(Question record);
 
     int insertSelective(Question record);
-
     List<Question> selectByExampleWithBLOBs(QuestionExample example, RowBounds rowBounds);
+    List<Question> selectByExampleWithBLOBs(QuestionExample example);
 
     List<Question> selectByExample(QuestionExample example);
 
