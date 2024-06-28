@@ -39,12 +39,13 @@ provider(与外部网站进行交流的具体实现)
 ### 数据库设计(补充中)
 user(用户表) {   
 id (主键，用于标注用户序号)  
-accountid (账户id)  
+account_id (账户id)  
 name (昵称)  
 token (使用 github 登录 api 获取的 token，可以唯一标注用户)  
 gmt_create (创建时间)   
 gmt_modified (修改时间)  
 bio(描述)
+avatar_url (头像url)
 
 }  
 sql脚本：  
@@ -75,8 +76,7 @@ comment_count (评论数)
 view_count (查看数)  
 like_count (点赞数)  
 tag(标签)  
-gmt_create (创建时间)   
-gmt_modified (修改时间)
+
 }
 
 sql脚本:
@@ -104,7 +104,8 @@ commentator (评论人)
 like_count (点赞数)  
 gmt_create (创建时间)   
 gmt_modified (修改时间)  
-id............  
+content (评论内容)  
+comment_count (评论数)
 
 }  
 
@@ -131,8 +132,8 @@ outerid (从哪里来帖子/回复的id)
 type (帖子还是回复)  
 gmt_create (创建时间)  
 status(是否已经读 0未读 1已经读)  
-..............
-
+outer_title (帖子/回复的标题)  
+notifier_name (通知发起人的昵称)  
 }   
 create table notification
 (
